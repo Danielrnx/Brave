@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BRAVE - Página do Usuário</title>
+  <link rel="icon" type="image/png" href="imagens/logos_afins/favicon.ico" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f7f7f7;
+      color: #333;
+    }
+
+    header {
+      background-color: rgb(57, 56, 53);
+      padding: 20px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      position: relative;
+    }
+
+    .logo-container {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .logo-container img {
+      height: 140px;
+    }
+
+    .auth-buttons {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .auth-buttons button {
+      background-color: #f1f1f1;
+      color: #4e4529;
+      border: 1px solid #4e4529;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .auth-buttons button:hover {
+      background-color: #e0e0e0;
+      color: #000;
+    }
+
+    /* Estilo para o botão logout */
+    .logout-btn {
+    background-color: #f1f1f1;
+    color: #4e4529;
+    border: 1px solid #4e4529;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    }
+    .logout-btn:hover {
+    background-color: #e0e0e0;
+    color: #000;
+    }
+
+    .cart-counter {
+      background-color: red;
+      color: white;
+      border-radius: 50%;
+      padding: 2px 8px;
+      font-size: 0.8em;
+      position: relative;
+      top: -10px;
+      left: -10px;
+    }
+
+    .navbar {
+      background-color: rgba(81, 80, 78, 0.474);
+      display: flex;
+      justify-content: center;
+    }
+
+    .navbar ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+    }
+
+    .navbar li {
+      position: relative;
+    }
+
+     .navbar ul ul {
+      display: none;
+      position: absolute;
+      background-color: rgba(0, 0, 0, 0.8);
+      top: 50px;
+      min-width: 180px;
+      z-index: 1000;
+    }
+    .navbar ul li:hover > ul {
+      display: block;
+    }
+    .navbar ul ul li a {
+      padding: 12px 18px;
+    }
+    .navbar ul ul li:hover {
+      background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    .navbar a {
+      display: block;
+      padding: 15px 25px;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      letter-spacing: 2px;
+      transition: background-color 0.3s;
+    }
+
+    .navbar li:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .carousel {
+      width: 100%;
+      height: 300px;
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 30px;
+      background-color: white;
+    }
+
+    .carousel img {
+      max-height: 80%;
+      max-width: 100%;
+      margin: auto;
+      display: none;
+      object-fit: contain;
+    }
+
+    .carousel img.active {
+      display: block;
+      animation: fade 1s ease-in-out;
+    }
+
+    @keyframes fade {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .section-wrapper {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+      flex-wrap: wrap;
+    }
+
+    .top-section, .bottom-section, .accessory-section {
+      display: flex;
+      gap: 20px;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    .banner img {
+      width: 300px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .product {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 280px;
+      text-align: center;
+      padding: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .product img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    .product h3 {
+      margin: 15px 0;
+      font-size: 1.5em;
+      color: #0073e6;
+    }
+
+    .product p {
+      color: #555;
+      font-size: 1em;
+      margin-bottom: 10px;
+    }
+
+    .product .price {
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #0073e6;
+    }
+
+    .product:hover {
+      transform: translateY(-10px);
+    }
+
+    .add-btn {
+      background-color:#cecece;
+      color: rgb(0, 0, 0);
+      border: none;
+      border-radius: 5px;
+      padding: 10px;
+      font-size: 1.2em;
+      cursor: pointer;
+    }
+
+    .add-btn:hover {
+      background-color: #656565bd;
+    }
+
+    #user-name {
+      color: white;
+      font-size: 1em;
+      font-weight: bold;
+      margin-left: 10px;
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+      width: 100%;
+      position: static;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo-container">
+    <img src="imagens/logos_afins/Logo.png" alt="Logo da Loja">
+  </div>
+  <div class="auth-buttons">
+    <span id="user-name" style="color: white; font-weight: bold; margin-left: 10px;"></span>
+  <button onclick="toggleCartDropdown()">
+    🛒 <span class="cart-counter" id="cart-count">0</span>
+  </button>
+  <button class="logout-btn" onclick="logout()">Terminar Sessão</button>
+</div>
+</header>
+
+<div id="cart-dropdown" class="cart-dropdown">
+  <div id="cart-items"></div>
+</div>
+
+<nav class="navbar">
+  <ul>
+    <li><a href="#">Homem</a>
+      <ul>
+        <li><a href="#">T-shirts</a></li>
+        <li><a href="#">Calções</a></li>
+      </ul>
+    </li>
+    <li><a href="#">Mulher</a>
+      <ul>
+        <li><a href="#">Tops</a></li>
+        <li><a href="#">Calções</a></li>
+        <li><a href="#">Leggings</a></li>
+      </ul>
+    </li>
+    <li><a href="#">Acessórios</a>
+      <ul>
+        <li><a href="#">Meias</a></li>
+        <li><a href="#">Bonés</a></li>
+      </ul>
+    </li>
+    <li><a href="#">Promoções</a>
+      <ul>
+        <li><a href="#">Até -30%</a></li>
+        <li><a href="#">Últimas unidades</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+<div class="carousel">
+  <img src="imagens/Homens/homem_cavas_logo.png" class="active" alt="Slide 1">
+  <img src="imagens/Homens/rapaz_brave_cavas.png" alt="Slide 2">
+  <img src="imagens/logos_afins/carrossel_banner_motivacional_1.png" alt="Slide 3">
+  <img src="imagens/logos_afins/20250611_1317_Banner Desportivo Inspirador_remix_01jxfen6e9ew2svvx5kjhjq4p8.png" alt="Slide 4">
+</div>
+
+<div class="section-wrapper">
+  <div class="top-section">
+    <div class="product">
+      <img src="imagens/Homens/tshit_1.png" alt="T-shirt">
+      <h3>T-shirt</h3>
+      <p>T-shirt amarela Brave</p>
+      <p class="price">29,99€</p>
+      <button class="add-btn" onclick="addToCart('T-shirt amarela Brave', 29.99, 'imagens/Homens/tshit_1.png')">+</button>
+    </div>
+    <div class="product">
+      <img src="imagens/Homens/calçoes _listas_azul_branco.png" alt="Calções">
+      <h3>Calções</h3>
+      <p>Calções Azuis e Brancos</p>
+      <p class="price">19,99€</p>
+      <button class="add-btn" onclick="addToCart('Calções Azuis e Brancos', 19.99, 'imagens/Homens/calçoes _listas_azul_branco.png')">+</button>
+    </div>
+    <div class="banner">
+      <img src="imagens/logos_afins/desconto_30.png" alt="Banner Promocional">
+    </div>
+  </div>
+</div>
+
+<div class="section-wrapper">
+  <div class="bottom-section">
+    <div class="banner">
+      <img src="imagens/logos_afins/banner_motivacional.png" alt="Banner Motivacional">
+    </div>
+    <div class="product">
+      <img src="imagens/Mulheres/top_colorido_mulher.png" alt="Top Rosa">
+      <h3>Top Rosa</h3>
+      <p>Top feminino BRAVE</p>
+      <p class="price">24,99€</p>
+      <button class="add-btn" onclick="addToCart('Top Rosa', 24.99, 'imagens/Mulheres/top_colorido_mulher.png')">+</button>
+    </div>
+    <div class="product">
+      <img src="imagens/mulheres/leggings.png" alt="Leggings Pretas">
+      <h3>Leggings</h3>
+      <p>Leggings pretas de treino BRAVE</p>
+      <p class="price">34,99€</p>
+      <button class="add-btn" onclick="addToCart('Leggings Pretas', 34.99, 'imagens/mulheres/leggings.png')">+</button>
+    </div>
+  </div>
+</div>
+
+<div class="section-wrapper">
+  <div class="accessory-section">
+    <div class="product">
+      <img src="imagens/Acessórios/straps_brave.png" alt="Straps de treino">
+      <h3>Straps</h3>
+      <p>Straps de treino BRAVE</p>
+      <p class="price">14,99€</p>
+      <button class="add-btn" onclick="addToCart('Straps de treino', 14.99, 'imagens/Acessórios/straps_brave.png')">+</button>
+    </div>
+    <div class="product">
+      <img src="imagens/Acessórios/garrafa_brave.png" alt="Garrafa">
+      <h3>Garrafa</h3>
+      <p>Garrafa de água BRAVE</p>
+      <p class="price">9,99€</p>
+      <button class="add-btn" onclick="addToCart('Garrafa de água BRAVE', 9.99, 'imagens/Acessórios/garrafa_brave.png')">+</button>
+    </div>
+    <div class="banner">
+      <img src="imagens/logos_afins/banner_motivacional_2.png" alt="Banner Garrafa">
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 BRAVE | Todos os direitos reservados</p>
+</footer>
+
+<script>
+  let cart = JSON.parse(localStorage.getItem('carrinho')) || [];
+
+  function updateCartCount() {
+    document.getElementById('cart-count').textContent = cart.length;
+  }
+
+  function addToCart(productName, price, image) {
+    cart.push({ nome: productName, preco: price, imagem: image, quantidade: 1 });
+    localStorage.setItem('carrinho', JSON.stringify(cart));
+    updateCartCount();
+    alert(`${productName} adicionado ao carrinho!`);
+  }
+
+  function toggleCartDropdown() {
+    const cartDropdown = document.getElementById('cart-dropdown');
+    cartDropdown.style.display = cartDropdown.style.display === 'block' ? 'none' : 'block';
+  }
+
+  function removeFromCart(index) {
+    cart.splice(index, 1);
+    localStorage.setItem('carrinho', JSON.stringify(cart));
+    updateCartCount();
+    renderCartItems();
+  }
+
+  function renderCartItems() {
+    const cartItemsContainer = document.getElementById('cart-items');
+    cartItemsContainer.innerHTML = '';
+
+    cart.forEach((item, index) => {
+      const itemDiv = document.createElement('div');
+      itemDiv.classList.add('cart-item');
+      itemDiv.innerHTML = `
+        <img src="${item.imagem}" alt="${item.nome}">
+        <div>
+          <h4>${item.nome}</h4>
+          <p>Preço: ${item.preco}€</p>
+          <p>Quantidade: ${item.quantidade}</p>
+          <button class="remove-btn" onclick="removeFromCart(${index})">🗑️</button>
+        </div>
+      `;
+      cartItemsContainer.appendChild(itemDiv);
+    });
+  }
+
+  function logout() {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('userName');
+    window.location.href = 'index.html';
+  }
+
+  // ...existing code...
+
+async function carregarNomeUsuario() {
+  const token = localStorage.getItem('authToken');
+  const userNameSpan = document.getElementById("user-name");
+  if (!token) {
+    userNameSpan.innerText = "Olá, utilizador";
+    return;
+  }
+
+  try {
+    const res = await fetch('http://localhost:3000/userinfo', {
+      method: 'GET',
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+
+    const data = await res.json();
+    if (res.ok && data.name) {
+      userNameSpan.innerText = `Olá, ${data.name}`;
+      localStorage.setItem('userName', data.name);
+    } else {
+      userNameSpan.innerText = "Olá, utilizador";
+    }
+  } catch (error) {
+    userNameSpan.innerText = "Olá";
+    console.error("Erro ao obter nome do utilizador:", error);
+  }
+}
+
+// Inicialização
+document.addEventListener('DOMContentLoaded', () => {
+  updateCartCount();
+  carregarNomeUsuario();
+});
+</script>
+</body>
+</html>

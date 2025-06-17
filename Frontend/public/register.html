@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BRAVE - Registar</title>
+  <link rel="icon" type="image/png" href="imagens/logos_afins/favicon.ico">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      color: #333;
+    }
+
+    header {
+      background-color: rgb(57, 56, 53);
+      padding: 20px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      position: relative;
+    }
+
+    .logo-container {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .logo-container img {
+      height: 140px;
+    }
+
+    .auth-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .auth-buttons button {
+      background-color: #f1f1f1;
+      color: #4e4529;
+      border: 1px solid #4e4529;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .auth-buttons button:hover {
+      background-color: #e0e0e0;
+      color: #000;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      background-image: url('imagens/logos_afins/wallpaper.png');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .register-container {
+      max-width: 400px;
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .register-container form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .register-container input,
+    .register-container select {
+      padding: 10px;
+      margin-bottom: 15px;
+      font-size: 1em;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .register-container button {
+      background-color: #0073e6;
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 1em;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .register-container button:hover {
+      background-color: #005bb5;
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo-container">
+      <img src="imagens/logos_afins/Logo.png" alt="Logo da Loja">
+    </div>
+    <div class="auth-buttons">
+      <button onclick="window.location.href='index.html'">Voltar</button>
+      <button onclick="window.location.href='login.html'">Login</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="register-container">
+      <form id="register-form">
+        <input type="text" id="name" placeholder="Nome Completo" required>
+        <input type="email" id="email" placeholder="E-mail" required>
+        <input type="password" id="password" placeholder="Senha" required>
+        <input type="text" id="phone" placeholder="Telefone">
+        <input type="text" id="address" placeholder="Endereço">
+        <select id="gender">
+          <option value="masculino">Masculino</option>
+          <option value="feminino">Feminino</option>
+        </select>
+        <button type="submit">Registar</button>
+      </form>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 BRAVE | Todos os direitos reservados</p>
+  </footer>
+
+  <script>
+    document.getElementById('register-form').addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const data = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value,
+        phone: document.getElementById('phone').value,
+        address: document.getElementById('address').value,
+        gender: document.getElementById('gender').value
+      };
+
+      try {
+        const response = await fetch('http://localhost:3000/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+          alert('Conta criada com sucesso!');
+          window.location.href = 'login.html';
+        } else {
+          alert(result.message);
+        }
+      } catch (error) {
+        alert('Erro ao registar: ' + error.message);
+      }
+    });
+  </script>
+
+</body>
+</html>
