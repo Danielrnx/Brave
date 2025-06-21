@@ -57,30 +57,64 @@
 
     /* Estilo para o botão logout */
     .logout-btn {
-    background-color: #f1f1f1;
-    color: #4e4529;
-    border: 1px solid #4e4529;
-    border-radius: 8px;
-    padding: 10px 20px;
-    font-size: 1em;
-    cursor: pointer;
+      background-color: #f1f1f1;
+      color: #4e4529;
+      border: 1px solid #4e4529;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 1em;
+      cursor: pointer;
     }
+
     .logout-btn:hover {
-    background-color: #e0e0e0;
-    color: #000;
+      background-color: #e0e0e0;
+      color: #000;
     }
 
-    .cart-counter {
-      background-color: red;
-      color: white;
+    /* Estilo do ícone de utilizador (menu) */
+    .user-icon {
+      background-color: #f1f1f1;
+      border: 1px solid #4e4529;
       border-radius: 50%;
-      padding: 2px 8px;
-      font-size: 0.8em;
-      position: relative;
-      top: -10px;
-      left: -10px;
+      padding: 10px;
+      font-size: 1.5em;
+      cursor: pointer;
     }
 
+    .user-icon:hover {
+      background-color: #e0e0e0;
+    }
+
+    /* Menu de utilizador */
+    .user-menu {
+      display: none;
+      position: absolute;
+      top: 60px;
+      right: 20px;
+      background-color: rgba(0, 0, 0, 0.8);
+      border-radius: 8px;
+      padding: 10px;
+      z-index: 1000;
+    }
+
+    .user-menu ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      color: white;
+    }
+
+    .user-menu li {
+      padding: 10px;
+      cursor: pointer;
+      font-size: 1.2em;
+    }
+
+    .user-menu li:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Navbar */
     .navbar {
       background-color: rgba(81, 80, 78, 0.474);
       display: flex;
@@ -96,24 +130,6 @@
 
     .navbar li {
       position: relative;
-    }
-
-     .navbar ul ul {
-      display: none;
-      position: absolute;
-      background-color: rgba(0, 0, 0, 0.8);
-      top: 50px;
-      min-width: 180px;
-      z-index: 1000;
-    }
-    .navbar ul li:hover > ul {
-      display: block;
-    }
-    .navbar ul ul li a {
-      padding: 12px 18px;
-    }
-    .navbar ul ul li:hover {
-      background-color: rgba(0, 0, 0, 0.9);
     }
 
     .navbar a {
@@ -253,50 +269,27 @@
   <div class="logo-container">
     <img src="imagens/logos_afins/Logo.png" alt="Logo da Loja">
   </div>
+
   <div class="auth-buttons">
     <span id="user-name" style="color: white; font-weight: bold; margin-left: 10px;"></span>
-  <button onclick="toggleCartDropdown()">
-    🛒 <span class="cart-counter" id="cart-count">0</span>
-  </button>
-  <button class="logout-btn" onclick="logout()">Terminar Sessão</button>
-</div>
+    <button class="user-icon" onclick="toggleUserMenu()">👤</button>
+    <button onclick="toggleCartDropdown()">🛒 <span class="cart-counter" id="cart-count">0</span></button>
+  </div>
+
+  <!-- Menu do utilizador -->
+  <div id="user-menu" class="user-menu">
+    <ul>
+      <li onclick="window.location.href='perfil.html'">Perfil</li>
+      <li onclick="window.location.href='M_encomendas.html'">Minhas Encomendas</li>
+      <li onclick="window.location.href='M_senha.html'">Mudar Senha</li>
+      <li onclick="logout()">Logout</li>
+    </ul>
+  </div>
 </header>
 
-<div id="cart-dropdown" class="cart-dropdown">
-  <div id="cart-items"></div>
-</div>
-
-<nav class="navbar">
-  <ul>
-    <li><a href="#">Homem</a>
-      <ul>
-        <li><a href="#">T-shirts</a></li>
-        <li><a href="#">Calções</a></li>
-      </ul>
-    </li>
-    <li><a href="#">Mulher</a>
-      <ul>
-        <li><a href="#">Tops</a></li>
-        <li><a href="#">Calções</a></li>
-        <li><a href="#">Leggings</a></li>
-      </ul>
-    </li>
-    <li><a href="#">Acessórios</a>
-      <ul>
-        <li><a href="#">Meias</a></li>
-        <li><a href="#">Bonés</a></li>
-      </ul>
-    </li>
-    <li><a href="#">Promoções</a>
-      <ul>
-        <li><a href="#">Até -30%</a></li>
-        <li><a href="#">Últimas unidades</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-
-<div class="carousel">
+<!-- Conteúdo da página -->
+<main>
+  <div class="carousel">
   <img src="imagens/Homens/homem_cavas_logo.png" class="active" alt="Slide 1">
   <img src="imagens/Homens/rapaz_brave_cavas.png" alt="Slide 2">
   <img src="imagens/logos_afins/carrossel_banner_motivacional_1.png" alt="Slide 3">
@@ -425,14 +418,57 @@
     window.location.href = 'index.html';
   }
 
-  // ...existing code...
+  // Função de inicialização
+  document.addEventListener('DOMContentLoaded', () => {
+    updateCartCount();
+    const userName = localStorage.getItem('userName');
+    if (userName) {
+      document.getElementById('user-name').textContent = `Olá, ${userName}`;
+    } else {
+      document.getElementById('user-name').textContent = 'Olá, utilizador';
+    }
+  });
 
-async function carregarNomeUsuario() {
+  function toggleUserMenu() {
+    const userMenu = document.getElementById('user-menu');
+    userMenu.style.display = userMenu.style.display === 'block' ? 'none' : 'block';
+  }
+
+  document.getElementById('edit-user-form').addEventListener('submit', async function (event) {
+  event.preventDefault();
+
   const token = localStorage.getItem('authToken');
-  const userNameSpan = document.getElementById("user-name");
+  const name = document.getElementById('name').value;
+  const phone = document.getElementById('phone').value;
+  const address = document.getElementById('address').value;
+
+  try {
+    const res = await fetch('http://localhost:3000/update-user', {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ name, phone, address })
+    });
+
+    const data = await res.json();
+    if (res.ok) {
+      alert('Dados atualizados com sucesso!');
+      window.location.href = 'user.html';  // Redireciona para a página do usuário após a edição
+    } else {
+      alert(data.message || 'Erro ao atualizar dados');
+    }
+  } catch (error) {
+    console.error('Erro ao atualizar dados:', error);
+    alert('Erro ao atualizar dados');
+  }
+});
+
+async function loadUserData() {
+  const token = localStorage.getItem('authToken');
   if (!token) {
-    userNameSpan.innerText = "Olá, utilizador";
-    return;
+    window.location.href = 'index.html'; // Redireciona se não houver token
   }
 
   try {
@@ -442,23 +478,22 @@ async function carregarNomeUsuario() {
     });
 
     const data = await res.json();
-    if (res.ok && data.name) {
-      userNameSpan.innerText = `Olá, ${data.name}`;
-      localStorage.setItem('userName', data.name);
+    if (res.ok) {
+      document.getElementById('name').value = data.name;
+      document.getElementById('phone').value = data.phone;
+      document.getElementById('address').value = data.address;
     } else {
-      userNameSpan.innerText = "Olá, utilizador";
+      alert('Erro ao carregar dados do usuário');
     }
   } catch (error) {
-    userNameSpan.innerText = "Olá";
-    console.error("Erro ao obter nome do utilizador:", error);
+    console.error('Erro ao obter dados do usuário:', error);
   }
 }
 
-// Inicialização
-document.addEventListener('DOMContentLoaded', () => {
-  updateCartCount();
-  carregarNomeUsuario();
-});
+document.addEventListener('DOMContentLoaded', loadUserData);
+
+
 </script>
+
 </body>
 </html>

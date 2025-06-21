@@ -38,17 +38,41 @@ function authenticateToken(req, res, next) {
   });
 }
 
-// Endpoint para devolver o nome do utilizador autenticado
+// Endpoint /userinfo
 app.get('/userinfo', authenticateToken, async (req, res) => {
   try {
     const result = await db.query(
-      'SELECT name FROM customers WHERE id = $1',
+      'SELECT name, email, phone, address FROM customers WHERE id = $1',
       [req.user.id]
     );
     if (result.rows.length === 0) return res.sendStatus(404);
-    res.json({ name: result.rows[0].name });
+    res.json(result.rows[0]); // Retorna todos os dados que foram solicitados
   } catch (err) {
     res.status(500).json({ message: 'Erro ao obter utilizador' });
+  }
+});
+
+// Corrigido: proteger com authenticateToken
+app.post('/change-password', authenticateToken, async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+  try {
+    // Buscar utilizador autenticado
+    const result = await db.query('SELECT * FROM customers WHERE id = $1', [req.user.id]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Utilizador não encontrado.' });
+    }
+    const user = result.rows[0];
+    const validPassword = await bcrypt.compare(currentPassword, user.password);
+    if (!validPassword) {
+      return res.status(401).json({ message: 'Senha atual incorreta.' });
+    }
+    // Atualize a senha do usuário
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await db.query('UPDATE customers SET password = $1 WHERE id = $2', [hashedPassword, req.user.id]);
+    res.json({ message: 'Senha alterada com sucesso!' });
+  } catch (err) {
+    console.error('Erro ao mudar senha:', err);
+    res.status(500).json({ message: 'Erro ao mudar senha.' });
   }
 });
 
@@ -95,25 +119,59 @@ app.post('/register', async (req, res) => {
   }
 });
 
+// Login de utilizador no backend
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
+
   try {
+    // Verifica se o utilizador existe na base de dados
     const result = await db.query('SELECT * FROM customers WHERE email = $1', [email]);
     if (result.rows.length === 0) {
       return res.status(401).json({ message: 'Email ou senha inválidos' });
     }
+
     const user = result.rows[0];
+
+    // Verifica se a senha está correta
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) {
       return res.status(401).json({ message: 'Email ou senha inválidos' });
     }
-    // Gera token JWT com o id do utilizador
-    const token = jwt.sign({ id: user.id }, 'SEU_SEGREDO_JWT');
-    res.json({ token, name: user.name, is_Admin: user.is_admin }); // <-- devolve isAdmin
+
+    // Gera o token JWT com a informação do usuário (e se ele é admin)
+    const token = jwt.sign(
+      { id: user.id, isAdmin: user.is_admin },  // Adiciona o status de admin no token
+      'SEU_SEGREDO_JWT'
+    );
+
+    res.json({
+      token,
+      name: user.name,
+      isAdmin: user.is_admin // Retorna se o usuário é admin ou não
+    });
   } catch (err) {
     res.status(500).json({ message: 'Erro ao fazer login' });
   }
 });
+
+// Endpoint para editar dados do utilizador
+app.put('/update-user', authenticateToken, async (req, res) => {
+  const { name, phone, address } = req.body;
+  try {
+    const result = await db.query(
+      'UPDATE customers SET name = $1, phone = $2, address = $3 WHERE id = $4 RETURNING *',
+      [name, phone, address, req.user.id]
+    );
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Utilizador não encontrado.' });
+    }
+    res.json({ message: 'Dados atualizados com sucesso', user: result.rows[0] });
+  } catch (err) {
+    res.status(500).json({ message: 'Erro ao atualizar dados do utilizador' });
+  }
+});
+
+
 
 // Hash da senha admin por segurança
 bcrypt.hash('admin123', 10).then(console.log);

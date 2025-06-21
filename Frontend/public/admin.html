@@ -2,56 +2,64 @@
 <html lang="pt">
 <head>
   <meta charset="UTF-8" />
-  <title>Admin Dashboard - Brave</title>
-  <link rel="stylesheet" href="estilos.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Admin - BRAVE</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f7f7f7;
+    }
+
+    header {
+      background-color: #333;
+      padding: 15px;
+      color: white;
+      text-align: center;
+    }
+
+    .content {
+      padding: 20px;
+    }
+
+    .button {
+      padding: 10px 20px;
+      background-color: #0073e6;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      background-color: #005bb5;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Dashboard do Administrador</h1>
-    <button onclick="logout()">Terminar Sessão</button>
-  </header>
 
-  <main>
-    <h2>Gestão de Produtos</h2>
-    <button onclick="window.location.href='addProduct.html'">Adicionar Produto</button>
-    <div id="product-list"></div>
-  </main>
+<header>
+  <h1>Dashboard do Administrador</h1>
+</header>
 
-  <script>
-    async function fetchProducts() {
-      const res = await fetch('http://localhost:3000/produtos');
-      const produtos = await res.json();
+<main class="content">
+  <h2>Bem-vindo, Admin!</h2>
+  <button class="button" onclick="manageProducts()">Gerenciar Produtos</button>
+  <button class="button" onclick="logout()">Sair</button>
+</main>
 
-      const container = document.getElementById('product-list');
-      produtos.forEach(produto => {
-        const div = document.createElement('div');
-        div.innerHTML = `
-          <h3>${produto.nome}</h3>
-          <p>${produto.preco}€</p>
-          <button onclick="editar(${produto.id})">Editar</button>
-          <button onclick="eliminar(${produto.id})">Eliminar</button>
-        `;
-        container.appendChild(div);
-      });
-    }
+<script>
+  function manageProducts() {
+    window.location.href = 'admin_manage_products.html'; // Redireciona para página de gestão de produtos
+  }
 
-    function editar(id) {
-      window.location.href = `editProduct.html?id=${id}`;
-    }
+  function logout() {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('isAdmin');
+    window.location.href = 'index.html'; // Redireciona para a página inicial
+  }
+</script>
 
-    async function eliminar(id) {
-      await fetch(`http://localhost:3000/produtos/${id}`, { method: 'DELETE' });
-      location.reload();
-    }
-
-    function logout() {
-      localStorage.removeItem('token');
-      localStorage.removeItem('name');
-      localStorage.removeItem('isAdmin');
-      window.location.href = 'index.html';
-    }
-
-    fetchProducts();
-  </script>
 </body>
 </html>

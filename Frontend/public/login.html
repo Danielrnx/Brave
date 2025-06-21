@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BRAVE - Login</title>
+  <link rel="icon" type="image/png" href="imagens/logos_afins/favicon.ico">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: url('imagens/logos_afins/wallpaper.png') no-repeat center center fixed;
+      background-size: cover;
+    }
+    header {
+      background-color: rgb(57, 56, 53);
+      padding: 20px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      position: relative;
+    }
+    .logo-container {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .logo-container img {
+      height: 140px;
+    }
+    .auth-buttons {
+      display: flex;
+      gap: 10px;
+    }
+    .auth-buttons button {
+      background-color: #f1f1f1;
+      color: #4e4529;
+      border: 1px solid #4e4529;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+    .login-container {
+      max-width: 400px;
+      margin: 100px auto;
+      padding: 30px;
+      background-color: rgba(255, 255, 255, 0.95);
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .login-container form {
+      display: flex;
+      flex-direction: column;
+    }
+    .login-container input {
+      padding: 10px;
+      margin-bottom: 15px;
+      font-size: 1em;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .login-container button {
+      background-color: #0073e6;
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 1em;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .login-container button:hover {
+      background-color: #005bb5;
+    }
+    .create-account {
+      text-align: center;
+      margin-top: 15px;
+    }
+    .create-account a {
+      color: #0073e6;
+      text-decoration: underline;
+      font-size: 1.1em;
+    }
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo-container">
+      <img src="imagens/logos_afins/Logo.png" alt="Logo da Loja">
+    </div>
+    <div class="auth-buttons">
+      <button onclick="window.location.href='index.html'">Voltar</button>
+      <button onclick="window.location.href='register.html'">Registar</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="login-container">
+      <form id="login-form">
+        <input type="email" id="email" placeholder="E-mail" required />
+        <input type="password" id="password" placeholder="Senha" required />
+        <button type="submit">Entrar</button>
+      </form>
+      <div class="create-account">
+        <p>Não tem conta? <a href="register.html">Criar conta</a></p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 BRAVE | Todos os direitos reservados</p>
+  </footer>
+
+  <script>
+    document.getElementById('login-form').addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const data = {
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value
+      };
+
+      try {
+        const response = await fetch('http://localhost:3000/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          localStorage.setItem('authToken', result.token);
+          localStorage.setItem('userName', result.name);
+          localStorage.setItem('isAdmin', result.isAdmin);
+
+          alert('Login realizado com sucesso!');
+
+          // Redirecionamento baseado em tipo de conta
+          if (result.isAdmin) {
+            window.location.href = 'admin.html';
+          } else {
+            window.location.href = 'user.html';
+          }
+
+        } else {
+          alert(result.message || 'Credenciais inválidas.');
+        }
+      } catch (error) {
+        alert('Erro ao fazer login: ' + error.message);
+      }
+    });
+  </script>
+
+</body>
+</html>

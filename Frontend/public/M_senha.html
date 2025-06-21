@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mudar Senha - BRAVE</title>
+  <link rel="icon" href="imagens/logos_afins/favicon.ico" type="image/png" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f7f7f7;
+      color: #333;
+      padding-bottom: 50px; /* Espaço para o footer fixo */
+    }
+
+    header {
+      background-color: rgb(57, 56, 53);
+      padding: 20px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      position: relative;
+    }
+
+    .logo-container {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .logo-container img {
+      height: 140px;
+    }
+
+    .auth-buttons {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .auth-buttons button {
+      background-color: #f1f1f1;
+      color: #4e4529;
+      border: 1px solid #4e4529;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .auth-buttons button:hover {
+      background-color: #e0e0e0;
+      color: #000;
+    }
+
+    /* Estilo para o formulário de mudar senha */
+    #change-password-form {
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 20px;
+      width: 80%;
+      max-width: 600px;
+      margin: 20px auto;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    #change-password-form label {
+      font-size: 1.1em;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    #change-password-form input {
+      font-size: 1em;
+      padding: 10px;
+      width: 100%;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    #change-password-form button {
+      background-color: #0073e6;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 1em;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    #change-password-form button:hover {
+      background-color: #005bb5;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 2.5em;
+      color: #0073e6;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+      width: 100%;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      z-index: 100;
+    }
+
+    main {
+      padding-bottom: 70px; /* Garantir que o conteúdo não fica atrás do footer */
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo-container">
+    <img src="imagens/logos_afins/Logo.png" alt="Logo da Loja">
+  </div>
+  <div class="auth-buttons">
+    <span id="user-name"></span>
+    <button onclick="window.location.href='user.html'">Voltar</button> <!-- Redireciona para a página do utilizador logado -->
+  </div>
+</header>
+
+<main>
+  <h2>Mudar Senha</h2>
+  <form id="change-password-form">
+    <label for="current-password">Senha Atual</label>
+    <input type="password" id="current-password" name="current-password" required />
+
+    <label for="new-password">Nova Senha</label>
+    <input type="password" id="new-password" name="new-password" required />
+
+    <label for="confirm-password">Confirmar Nova Senha</label>
+    <input type="password" id="confirm-password" name="confirm-password" required />
+
+    <button type="submit">Mudar Senha</button>
+  </form>
+</main>
+
+<footer>
+  <p>© 2025 BRAVE | Todos os direitos reservados</p>
+</footer>
+
+<script>
+  document.getElementById('change-password-form').addEventListener('submit', async function (event) {
+    event.preventDefault();  // Impede o envio do formulário padrão
+
+    const token = localStorage.getItem('authToken');  // Obtém o token de autenticação do localStorage
+    const currentPassword = document.getElementById('current-password').value;  // Obtém a senha atual
+    const newPassword = document.getElementById('new-password').value;  // Obtém a nova senha
+    const confirmPassword = document.getElementById('confirm-password').value;  // Confirma a nova senha
+
+    // Verifica se as senhas são iguais
+    if (newPassword !== confirmPassword) {
+      alert('As senhas não coincidem.');
+      return;
+    }
+
+    try {
+      // Envia a requisição para o servidor para mudar a senha
+      const res = await fetch('http://localhost:3000/change-password', {
+        method: 'POST',
+        headers: { 
+          'Authorization': `Bearer ${token}`, 
+          'Content-Type': 'application/json' 
+        },
+        body: JSON.stringify({ currentPassword, newPassword })  // Envia a senha atual e a nova senha
+      });
+
+      const data = await res.json();  // Converte a resposta em JSON
+      if (res.ok) {
+        alert('Senha alterada com sucesso!');  // Exibe sucesso
+        window.location.href = 'user.html';  // Redireciona para a página do usuário
+      } else {
+        alert(data.message || 'Erro ao mudar a senha.');  // Exibe mensagem de erro
+      }
+    } catch (error) {
+      console.error('Erro ao mudar senha:', error);  // Exibe erro no console
+      alert('Erro ao mudar a senha.');
+    }
+  });
+</script>
+
+</body>
+</html>
+

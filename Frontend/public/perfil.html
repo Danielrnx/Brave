@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Perfil - BRAVE</title>
+  <link rel="icon" href="imagens/logos_afins/favicon.ico" type="image/png" />
+  <style>
+   body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f7f7f7;
+  color: #333;
+}
+
+header {
+  background-color: rgb(57, 56, 53);
+  padding: 20px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+}
+
+.logo-container {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.logo-container img {
+  height: 140px;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.auth-buttons button {
+  background-color: #f1f1f1;
+  color: #4e4529;
+  border: 1px solid #4e4529;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.auth-buttons button:hover {
+  background-color: #e0e0e0;
+  color: #000;
+}
+
+/* Estilo para o formulário */
+main {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Alinhamento ao topo */
+  height: 100%;
+  padding-top: 40px;
+  padding-bottom: 0;
+}
+
+form {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px; /* Ajuste o padding para reduzir o tamanho do formulário */
+  width: 100%;
+  max-width: 400px; /* Reduz a largura máxima do formulário */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  font-size: 2em;
+  color: #0073e6;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+form label {
+  font-size: 1.2em;
+  color: #333;
+  margin-bottom: 8px;
+  display: block;
+}
+
+form input {
+  width: 100%;
+  padding: 10px; /* Reduz o padding interno */
+  margin: 8px 0 20px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1em;
+}
+
+form button {
+  background-color: #0073e6;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 1.2em;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s;
+}
+
+form button:hover {
+  background-color: #005bb5;
+}
+
+footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 15px 0;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo-container">
+    <img src="imagens/logos_afins/Logo.png" alt="Logo da Loja">
+  </div>
+  <div class="auth-buttons">
+    <span id="user-name"></span>
+    <button onclick="window.location.href='user.html'">Voltar</button>
+  </div>
+</header>
+
+<main>
+  <!-- Formulário para editar dados do usuário -->
+  <form id="edit-user-form">
+    <h2>Editar Perfil</h2>
+    <label for="name">Nome:</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="phone">Telefone:</label>
+    <input type="text" id="phone" name="phone" required>
+
+    <label for="address">Endereço:</label>
+    <input type="text" id="address" name="address" required>
+
+    <button type="submit">Salvar Alterações</button>
+  </form>
+</main>
+
+<footer>
+  <p>© 2025 BRAVE | Todos os direitos reservados</p>
+</footer>
+
+<script>
+  // Carrega dados do utilizador
+  async function loadUserData() {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      window.location.href = 'index.html'; // Redireciona se não estiver logado
+      return;
+    }
+
+    try {
+      const res = await fetch('http://localhost:3000/userinfo', {
+        method: 'GET',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        // Preenche os campos de texto com os dados do usuário
+        document.getElementById('name').value = data.name || '';
+        document.getElementById('phone').value = data.phone || '';
+        document.getElementById('address').value = data.address || '';
+      } else {
+        alert('Erro ao carregar dados do utilizador');
+      }
+    } catch (err) {
+      console.error('Erro:', err);
+      alert('Erro ao obter dados');
+    }
+  }
+
+  // Submete dados atualizados
+  document.getElementById('edit-user-form').addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    const token = localStorage.getItem('authToken');
+    const name = document.getElementById('name').value;
+    const phone = document.getElementById('phone').value;
+    const address = document.getElementById('address').value;
+
+    try {
+      const res = await fetch('http://localhost:3000/update-user', {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name, phone, address })
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        alert('Dados atualizados com sucesso!');
+        window.location.reload();
+      } else {
+        alert(data.message || 'Erro ao atualizar dados');
+      }
+    } catch (err) {
+      console.error('Erro ao atualizar:', err);
+      alert('Erro ao atualizar dados');
+    }
+  });
+
+  document.addEventListener('DOMContentLoaded', loadUserData);
+</script>
+
+</body>
+</html>
