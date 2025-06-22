@@ -154,6 +154,17 @@ app.post('/login', async (req, res) => {
   }
 });
 
+// Exemplo no backend - products.routes.js
+router.get('/products', async (req, res) => {
+  try {
+    const produtos = await Product.findAll(); // ou Product.findAll({ where: ... })
+    res.json(produtos);
+  } catch (err) {
+    res.status(500).json({ message: 'Erro ao buscar produtos.' });
+  }
+});
+
+
 // Endpoint para editar dados do utilizador
 app.put('/update-user', authenticateToken, async (req, res) => {
   const { name, phone, address } = req.body;
@@ -171,6 +182,30 @@ app.put('/update-user', authenticateToken, async (req, res) => {
   }
 });
 
+
+// Finalizar compra e criar fatura
+router.post('/checkout', async (req, res) => {
+  const { userId, cartItems } = req.body;
+
+  try {
+    const total = cartItems.reduce((sum, item) => sum + item.preco * item.quantidade, 0);
+
+    const invoice = await Invoice.create({ customer_id: userId, total });
+
+    for (const item of cartItems) {
+      await InvoiceItem.create({
+        invoice_id: invoice.id,
+        product_id: item.id,
+        quantity: item.quantidade,
+        price: item.preco
+      });
+    }
+
+    res.status(201).json({ message: 'Compra finalizada com sucesso!' });
+  } catch (err) {
+    res.status(500).json({ message: 'Erro ao finalizar compra.' });
+  }
+});
 
 
 // Hash da senha admin por segurança

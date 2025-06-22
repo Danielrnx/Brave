@@ -278,6 +278,18 @@
 
 <div id="cart-dropdown" class="cart-dropdown">
   <div id="cart-items"></div>
+  <div style="text-align: center; margin-top: 10px;">
+  <button onclick="finalizarCompra()" style="
+    background-color: #4e4529;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+  ">Finalizar Compra</button>
+</div>
+
 </div>
 
 <nav class="navbar">
@@ -432,6 +444,11 @@
       cartItemsContainer.appendChild(itemDiv);
     });
   }
+
+  function finalizarCompra() {
+  // Simplesmente redireciona para a página de login
+  window.location.href = "login.html";
+}
 
   // Initialize
   updateCartCount();

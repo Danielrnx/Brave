@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Finalizar Compra - BRAVE</title>
+  <link rel="icon" type="image/png" href="imagens/logos_afins/favicon.ico" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f7f7f7;
+      color: #333;
+    }
+
+    header {
+      background-color: rgb(57, 56, 53);
+      padding: 20px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      position: relative;
+    }
+
+    .logo-container {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .logo-container img {
+      height: 140px;
+    }
+
+    .auth-buttons {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .auth-buttons button {
+      background-color: #f1f1f1;
+      color: #4e4529;
+      border: 1px solid #4e4529;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+
+    .auth-buttons button:hover {
+      background-color: #e0e0e0;
+      color: #000;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #0073e6;
+    }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      border-bottom: 1px solid #ddd;
+      padding: 15px 0;
+    }
+
+    .cart-item img {
+      height: 80px;
+      border-radius: 8px;
+    }
+
+    .cart-item label {
+      flex: 1;
+      font-size: 1.1em;
+    }
+
+    .cart-item input {
+      transform: scale(1.5);
+    }
+
+    .checkout-btn {
+      margin-top: 20px;
+      width: 100%;
+      padding: 15px;
+      font-size: 1.2em;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .checkout-btn:hover {
+      background-color: #1e7e34;
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+      width: 100%;
+      position: static;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo-container">
+    <img src="imagens/logos_afins/Logo.png" alt="Logo da Loja">
+  </div>
+  <div class="auth-buttons">
+    <span id="user-name" style="color: white; font-weight: bold; margin-left: 10px;"></span>
+    <button onclick="window.location.href='user.html'">Voltar</button>
+  </div>
+</header>
+
+<main>
+  <h2>Escolha os produtos que deseja finalizar</h2>
+  <div id="cart-list"></div>
+<h3 style="text-align:center; margin-top: 20px;">Total: <span id="total-value">0.00€</span></h3>
+<button class="checkout-btn" onclick="confirmarCompra()">Finalizar Compra</button>
+</main>
+
+<footer>
+  <p>© 2025 BRAVE | Todos os direitos reservados</p>
+</footer>
+
+<script>
+  const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+
+  function mostrarCarrinho() {
+    const container = document.getElementById('cart-list');
+    container.innerHTML = '';
+
+    if (carrinho.length === 0) {
+      container.innerHTML = '<p>O seu carrinho está vazio.</p>';
+      return;
+    }
+
+    carrinho.forEach((item, index) => {
+      const itemDiv = document.createElement('div');
+      itemDiv.className = 'cart-item';
+      itemDiv.innerHTML = `
+        <input type="checkbox" id="item-${index}" checked onchange="atualizarTotal()">
+        <img src="${item.imagem}" alt="${item.nome}">
+        <label for="item-${index}">${item.nome} - ${item.preco.toFixed(2)}€</label>
+      `;
+      container.appendChild(itemDiv);
+    });
+
+    atualizarTotal();
+  }
+
+  function atualizarTotal() {
+    let total = 0;
+    carrinho.forEach((item, index) => {
+      const checkbox = document.getElementById(`item-${index}`);
+      if (checkbox && checkbox.checked) {
+        total += item.preco;
+      }
+    });
+
+    document.getElementById('total-value').textContent = `${total.toFixed(2)}€`;
+  }
+
+  function confirmarCompra() {
+    const selecionados = carrinho.filter((_, index) =>
+      document.getElementById(`item-${index}`).checked
+    );
+
+    if (selecionados.length === 0) {
+      alert('Por favor, selecione pelo menos um produto.');
+      return;
+    }
+
+    alert('Compra finalizada com sucesso!');
+
+    const restantes = carrinho.filter((_, index) =>
+      !document.getElementById(`item-${index}`).checked
+    );
+    localStorage.setItem('carrinho', JSON.stringify(restantes));
+    window.location.href = 'user.html';
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    mostrarCarrinho();
+    const userName = localStorage.getItem('userName');
+    if (userName) {
+      document.getElementById('user-name').textContent = `Olá, ${userName}`;
+    }
+  });
+</script>
+
+</body>
+</html>
