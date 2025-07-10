@@ -122,45 +122,46 @@
   </footer>
 
   <script>
-    document.getElementById('login-form').addEventListener('submit', async function(event) {
-      event.preventDefault();
+  document.getElementById('login-form').addEventListener('submit', async function(event) {
+    event.preventDefault();
 
-      const data = {
-        email: document.getElementById('email').value,
-        password: document.getElementById('password').value
-      };
+    const data = {
+      email: document.getElementById('email').value,
+      password: document.getElementById('password').value
+    };
 
-      try {
-        const response = await fetch('http://localhost:3000/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
+    try {
+      const response = await fetch('http://localhost:3000/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
 
-        const result = await response.json();
+      const result = await response.json();
 
-        if (response.ok) {
-          localStorage.setItem('authToken', result.token);
-          localStorage.setItem('userName', result.name);
-          localStorage.setItem('isAdmin', result.isAdmin);
+      if (response.ok) {
+        localStorage.setItem('authToken', result.token);
+        localStorage.setItem('userName', result.name); // ✅ Guarda o nome do utilizador
+        localStorage.setItem('isAdmin', result.isAdmin);
 
-          alert('Login realizado com sucesso!');
+        alert('Login realizado com sucesso!');
 
-          // Redirecionamento baseado em tipo de conta
-          if (result.isAdmin) {
-            window.location.href = 'admin.html';
-          } else {
-            window.location.href = 'user.html';
-          }
-
+        // Redirecionamento baseado em tipo de conta
+        if (result.isAdmin) {
+          window.location.href = 'admin.html';
         } else {
-          alert(result.message || 'Credenciais inválidas.');
+          window.location.href = 'user.html';
         }
-      } catch (error) {
-        alert('Erro ao fazer login: ' + error.message);
+
+      } else {
+        alert(result.message || 'Credenciais inválidas.');
       }
-    });
-  </script>
+    } catch (error) {
+      alert('Erro ao fazer login: ' + error.message);
+    }
+  });
+</script>
+
 
 </body>
 </html>

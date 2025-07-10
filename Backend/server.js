@@ -155,7 +155,7 @@ app.post('/login', async (req, res) => {
 });
 
 // Exemplo no backend - products.routes.js
-router.get('/products', async (req, res) => {
+app.get('/products', async (req, res) => {
   try {
     const produtos = await Product.findAll(); // ou Product.findAll({ where: ... })
     res.json(produtos);
@@ -184,7 +184,7 @@ app.put('/update-user', authenticateToken, async (req, res) => {
 
 
 // Finalizar compra e criar fatura
-router.post('/checkout', async (req, res) => {
+app.post('/checkout', async (req, res) => {
   const { userId, cartItems } = req.body;
 
   try {

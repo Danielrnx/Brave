@@ -55,8 +55,8 @@
       color: #000;
     }
 
-     /* Estilo para o  carrinho */
-        .cart-item {
+    /* Estilo para o carrinho */
+    .cart-item {
       display: flex;
       gap: 10px;
       margin-bottom: 15px;
@@ -64,48 +64,47 @@
       padding-bottom: 10px;
     }
 
-  .cart-item img {
-    width: 60px;
-    height: 60px;
-    border-radius: 4px;
-    object-fit: cover;
-  }
+    .cart-item img {
+      width: 60px;
+      height: 60px;
+      border-radius: 4px;
+      object-fit: cover;
+    }
 
-  .cart-item h4 {
-    margin: 0;
-    font-size: 1em;
-    color: #333;
-  }
+    .cart-item h4 {
+      margin: 0;
+      font-size: 1em;
+      color: #333;
+    }
 
-  .cart-item p {
-    margin: 2px 0;
-    font-size: 0.9em;
-    color: #666;
-  }
+    .cart-item p {
+      margin: 2px 0;
+      font-size: 0.9em;
+      color: #666;
+    }
 
-  .remove-btn {
-    background: none;
-    border: none;
-    color: red;
-    cursor: pointer;
-    font-size: 1.2em;
-  }
+    .remove-btn {
+      background: none;
+      border: none;
+      color: red;
+      cursor: pointer;
+      font-size: 1.2em;
+    }
 
-  .cart-button {
-  background-color: #f1f1f1;
-  border: 1px solid #4e4529;
-  border-radius: 8px;
-  padding: 6px 10px;
-  font-size: 1.2em;
-  cursor: pointer;
-  width: 48px;
-  height: 48px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+    .cart-button {
+      background-color: #f1f1f1;
+      border: 1px solid #4e4529;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 1.2em;
+      cursor: pointer;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-      
     /* Estilo para o botão logout */
     .logout-btn {
       background-color: #f1f1f1;
@@ -324,7 +323,7 @@
   <div class="auth-buttons">
     <span id="user-name" style="color: white; font-weight: bold; margin-left: 10px;"></span>
     <button class="user-icon" onclick="toggleUserMenu()">👤</button>
-   <button class="cart-button" onclick="toggleCartDropdown()">🛒</button>
+    <button class="cart-button" onclick="toggleCartDropdown()">🛒</button>
   </div>
 
   <!-- Menu do utilizador -->
@@ -337,97 +336,101 @@
     </ul>
   </div>
 
-   <!-- Carrinho Dropdown -->
-<div id="cart-dropdown" style="display: none; position: absolute; top: 80px; right: 20px; width: 320px; background-color: white; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 1000; max-height: 400px; overflow-y: auto; padding: 10px;">
-  <h3 style="margin: 0 0 10px; font-size: 1.2em;">Carrinho</h3>
-<div id="cart-items"></div>
-<button onclick="window.location.href='Fim_compra.html'" style="margin-top: 10px; width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 5px; font-size: 1em; cursor: pointer;">Finalizar Compra</button>
+  <!-- Carrinho Dropdown -->
+  <div id="cart-dropdown" style="display: none; position: absolute; top: 80px; right: 20px; width: 320px; background-color: white; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 1000; max-height: 400px; overflow-y: auto; padding: 10px;">
+    <h3 style="margin: 0 0 10px; font-size: 1.2em;">Carrinho</h3>
+    <div id="cart-items"></div>
+    <button onclick="window.location.href='Fim_compra.html'" style="margin-top: 10px; width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 5px; font-size: 1em; cursor: pointer;">Finalizar Compra</button>
+  </div>
 </header>
 
-<!-- Conteúdo da página -->
 <main>
   <div class="carousel">
-  <img src="imagens/Homens/homem_cavas_logo.png" class="active" alt="Slide 1">
-  <img src="imagens/Homens/rapaz_brave_cavas.png" alt="Slide 2">
-  <img src="imagens/logos_afins/carrossel_banner_motivacional_1.png" alt="Slide 3">
-  <img src="imagens/logos_afins/20250611_1317_Banner Desportivo Inspirador_remix_01jxfen6e9ew2svvx5kjhjq4p8.png" alt="Slide 4">
-</div>
+    <img src="imagens/Homens/homem_cavas_logo.png" class="active" alt="Slide 1">
+    <img src="imagens/Homens/rapaz_brave_cavas.png" alt="Slide 2">
+    <img src="imagens/logos_afins/carrossel_banner_motivacional_1.png" alt="Slide 3">
+    <img src="imagens/logos_afins/20250611_1317_Banner Desportivo Inspirador_remix_01jxfen6e9ew2svvx5kjhjq4p8.png" alt="Slide 4">
+  </div>
 
-<div class="section-wrapper">
-  <div class="top-section">
-    <div class="product">
-      <img src="imagens/Homens/tshit_1.png" alt="T-shirt">
-      <h3>T-shirt</h3>
-      <p>T-shirt amarela Brave</p>
-      <p class="price">29,99€</p>
-      <button class="add-btn" onclick="addToCart('T-shirt amarela Brave', 29.99, 'imagens/Homens/tshit_1.png')">+</button>
-    </div>
-    <div class="product">
-      <img src="imagens/Homens/calçoes _listas_azul_branco.png" alt="Calções">
-      <h3>Calções</h3>
-      <p>Calções Azuis e Brancos</p>
-      <p class="price">19,99€</p>
-      <button class="add-btn" onclick="addToCart('Calções Azuis e Brancos', 19.99, 'imagens/Homens/calçoes _listas_azul_branco.png')">+</button>
-    </div>
-    <div class="banner">
-      <img src="imagens/logos_afins/desconto_30.png" alt="Banner Promocional">
+  <!-- Produtos estáticos -->
+  <div class="section-wrapper">
+    <div class="top-section">
+      <div class="product">
+        <img src="imagens/Homens/tshit_1.png" alt="T-shirt">
+        <h3>T-shirt</h3>
+        <p>T-shirt amarela Brave</p>
+        <p class="price">29,99€</p>
+        <button class="add-btn" onclick="addToCart('T-shirt amarela Brave', 29.99, 'imagens/Homens/tshit_1.png')">+</button>
+      </div>
+      <div class="product">
+        <img src="imagens/Homens/calçoes _listas_azul_branco.png" alt="Calções">
+        <h3>Calções</h3>
+        <p>Calções Azuis e Brancos</p>
+        <p class="price">19,99€</p>
+        <button class="add-btn" onclick="addToCart('Calções Azuis e Brancos', 19.99, 'imagens/Homens/calçoes _listas_azul_branco.png')">+</button>
+      </div>
+      <div class="banner">
+        <img src="imagens/logos_afins/desconto_30.png" alt="Banner Promocional">
+      </div>
     </div>
   </div>
-</div>
 
-<div class="section-wrapper">
-  <div class="bottom-section">
-    <div class="banner">
-      <img src="imagens/logos_afins/banner_motivacional.png" alt="Banner Motivacional">
-    </div>
-    <div class="product">
-      <img src="imagens/Mulheres/top_colorido_mulher.png" alt="Top Rosa">
-      <h3>Top Rosa</h3>
-      <p>Top feminino BRAVE</p>
-      <p class="price">24,99€</p>
-      <button class="add-btn" onclick="addToCart('Top Rosa', 24.99, 'imagens/Mulheres/top_colorido_mulher.png')">+</button>
-    </div>
-    <div class="product">
-      <img src="imagens/mulheres/leggings.png" alt="Leggings Pretas">
-      <h3>Leggings</h3>
-      <p>Leggings pretas de treino BRAVE</p>
-      <p class="price">34,99€</p>
-      <button class="add-btn" onclick="addToCart('Leggings Pretas', 34.99, 'imagens/mulheres/leggings.png')">+</button>
+  <div class="section-wrapper">
+    <div class="bottom-section">
+      <div class="banner">
+        <img src="imagens/logos_afins/banner_motivacional.png" alt="Banner Motivacional">
+      </div>
+      <div class="product">
+        <img src="imagens/Mulheres/top_colorido_mulher.png" alt="Top Rosa">
+        <h3>Top Rosa</h3>
+        <p>Top feminino BRAVE</p>
+        <p class="price">24,99€</p>
+        <button class="add-btn" onclick="addToCart('Top Rosa', 24.99, 'imagens/Mulheres/top_colorido_mulher.png')">+</button>
+      </div>
+      <div class="product">
+        <img src="imagens/mulheres/leggings.png" alt="Leggings Pretas">
+        <h3>Leggings</h3>
+        <p>Leggings pretas de treino BRAVE</p>
+        <p class="price">34,99€</p>
+        <button class="add-btn" onclick="addToCart('Leggings Pretas', 34.99, 'imagens/mulheres/leggings.png')">+</button>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="section-wrapper">
-  <div class="accessory-section">
-    <div class="product">
-      <img src="imagens/Acessórios/straps_brave.png" alt="Straps de treino">
-      <h3>Straps</h3>
-      <p>Straps de treino BRAVE</p>
-      <p class="price">14,99€</p>
-      <button class="add-btn" onclick="addToCart('Straps de treino', 14.99, 'imagens/Acessórios/straps_brave.png')">+</button>
-    </div>
-    <div class="product">
-      <img src="imagens/Acessórios/garrafa_brave.png" alt="Garrafa">
-      <h3>Garrafa</h3>
-      <p>Garrafa de água BRAVE</p>
-      <p class="price">9,99€</p>
-      <button class="add-btn" onclick="addToCart('Garrafa de água BRAVE', 9.99, 'imagens/Acessórios/garrafa_brave.png')">+</button>
-    </div>
-    <div class="banner">
-      <img src="imagens/logos_afins/banner_motivacional_2.png" alt="Banner Garrafa">
+  <div class="section-wrapper">
+    <div class="accessory-section">
+      <div class="product">
+        <img src="imagens/Acessórios/straps_brave.png" alt="Straps de treino">
+        <h3>Straps</h3>
+        <p>Straps de treino BRAVE</p>
+        <p class="price">14,99€</p>
+        <button class="add-btn" onclick="addToCart('Straps de treino', 14.99, 'imagens/Acessórios/straps_brave.png')">+</button>
+      </div>
+      <div class="product">
+        <img src="imagens/Acessórios/garrafa_brave.png" alt="Garrafa">
+        <h3>Garrafa</h3>
+        <p>Garrafa de água BRAVE</p>
+        <p class="price">9,99€</p>
+        <button class="add-btn" onclick="addToCart('Garrafa de água BRAVE', 9.99, 'imagens/Acessórios/garrafa_brave.png')">+</button>
+      </div>
+      <div class="banner">
+        <img src="imagens/logos_afins/banner_motivacional_2.png" alt="Banner Garrafa">
+      </div>
     </div>
   </div>
-</div>
+</main>
 
 <footer>
   <p>© 2025 BRAVE | Todos os direitos reservados</p>
 </footer>
 
 <script>
+  // Carrinho
   let cart = JSON.parse(localStorage.getItem('carrinho')) || [];
 
   function updateCartCount() {
-    document.getElementById('cart-count').textContent = cart.length;
+    // Se quiser mostrar o número de itens no carrinho, adicione um span com id="cart-count"
+    // document.getElementById('cart-count').textContent = cart.length;
   }
 
   function addToCart(productName, price, image) {
@@ -438,14 +441,14 @@
   }
 
   function toggleCartDropdown() {
-  const cartDropdown = document.getElementById('cart-dropdown');
-  if (cartDropdown.style.display === 'block') {
-    cartDropdown.style.display = 'none';
-  } else {
-    renderCartItems();
-    cartDropdown.style.display = 'block';
+    const cartDropdown = document.getElementById('cart-dropdown');
+    if (cartDropdown.style.display === 'block') {
+      cartDropdown.style.display = 'none';
+    } else {
+      renderCartItems();
+      cartDropdown.style.display = 'block';
+    }
   }
-}
 
   function removeFromCart(index) {
     cart.splice(index, 1);
@@ -474,32 +477,18 @@
     });
   }
 
-  function finalizarCompra() {
-  if (cart.length === 0) {
-    alert('O carrinho está vazio!');
-    return;
-  }
-
-  // Aqui podes redirecionar para outra página, enviar pedido ao backend ou apenas mostrar confirmação
-  alert('Compra finalizada com sucesso!');
-  
-  // Limpa o carrinho
-  cart = [];
-  localStorage.setItem('carrinho', JSON.stringify(cart));
-  updateCartCount();
-  renderCartItems();
-
-  // Fecha o dropdown
-  document.getElementById('cart-dropdown').style.display = 'none';
-}
-
   function logout() {
     localStorage.removeItem('authToken');
     localStorage.removeItem('userName');
     window.location.href = 'index.html';
   }
 
-  // Função de inicialização
+  function toggleUserMenu() {
+    const userMenu = document.getElementById('user-menu');
+    userMenu.style.display = userMenu.style.display === 'block' ? 'none' : 'block';
+  }
+
+  // Saudação ao utilizador
   document.addEventListener('DOMContentLoaded', () => {
     updateCartCount();
     const userName = localStorage.getItem('userName');
@@ -510,90 +499,27 @@
     }
   });
 
-  function toggleUserMenu() {
-    const userMenu = document.getElementById('user-menu');
-    userMenu.style.display = userMenu.style.display === 'block' ? 'none' : 'block';
-  }
-
-  document.getElementById('edit-user-form').addEventListener('submit', async function (event) {
-  event.preventDefault();
-
-  const token = localStorage.getItem('authToken');
-  const name = document.getElementById('name').value;
-  const phone = document.getElementById('phone').value;
-  const address = document.getElementById('address').value;
-
-  try {
-    const res = await fetch('http://localhost:3000/update-user', {
-      method: 'PUT',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ name, phone, address })
+  // Carregar produtos dinâmicos do backend (opcional)
+  /*
+  async function carregarProdutos() {
+    const res = await fetch('http://localhost:3000/products');
+    const produtos = await res.json();
+    const container = document.querySelector('.section-wrapper');
+    produtos.forEach(p => {
+      const div = document.createElement('div');
+      div.classList.add('product');
+      div.innerHTML = `
+        <img src="${p.image_url}" alt="${p.nome}">
+        <h3>${p.nome}</h3>
+        <p>${p.categoria}</p>
+        <p class="price">${p.preco.toFixed(2)}€</p>
+        <button class="add-btn" onclick="addToCart('${p.nome}', ${p.preco}, '${p.image_url}')">+</button>
+      `;
+      container.appendChild(div);
     });
-
-    const data = await res.json();
-    if (res.ok) {
-      alert('Dados atualizados com sucesso!');
-      window.location.href = 'user.html';  // Redireciona para a página do usuário após a edição
-    } else {
-      alert(data.message || 'Erro ao atualizar dados');
-    }
-  } catch (error) {
-    console.error('Erro ao atualizar dados:', error);
-    alert('Erro ao atualizar dados');
   }
-});
-
-async function loadUserData() {
-  const token = localStorage.getItem('authToken');
-  if (!token) {
-    window.location.href = 'index.html'; // Redireciona se não houver token
-  }
-
-  try {
-    const res = await fetch('http://localhost:3000/userinfo', {
-      method: 'GET',
-      headers: { 'Authorization': `Bearer ${token}` }
-    });
-
-    const data = await res.json();
-    if (res.ok) {
-      document.getElementById('name').value = data.name;
-      document.getElementById('phone').value = data.phone;
-      document.getElementById('address').value = data.address;
-    } else {
-      alert('Erro ao carregar dados do usuário');
-    }
-  } catch (error) {
-    console.error('Erro ao obter dados do usuário:', error);
-  }
-}
-
-document.addEventListener('DOMContentLoaded', loadUserData);
-
-// JS no frontend
-async function carregarProdutos() {
-  const res = await fetch('http://localhost:3000/products');
-  const produtos = await res.json();
-  
-  const container = document.querySelector('.section-wrapper');
-  produtos.forEach(p => {
-    const div = document.createElement('div');
-    div.classList.add('product');
-    div.innerHTML = `
-      <img src="${p.image_url}" alt="${p.nome}">
-      <h3>${p.nome}</h3>
-      <p>${p.categoria}</p>
-      <p class="price">${p.preco.toFixed(2)}€</p>
-      <button class="add-btn" onclick="addToCart('${p.nome}', ${p.preco}, '${p.image_url}')">+</button>
-    `;
-    container.appendChild(div);
-  });
-}
-
-document.addEventListener('DOMContentLoaded', carregarProdutos);
+  // document.addEventListener('DOMContentLoaded', carregarProdutos);
+  */
 </script>
 
 </body>
